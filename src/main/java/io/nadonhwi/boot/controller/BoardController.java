@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import io.nadonhwi.boot.model.Board;
 import io.nadonhwi.boot.repository.BoardRepository;
+import io.nadonhwi.boot.validator.BoardValidator;
 
 @Controller
 @RequestMapping("/board")
@@ -23,6 +24,9 @@ public class BoardController {
 	
 	@Autowired
 	private BoardRepository boardRepository;
+	
+	@Autowired
+	private BoardValidator boardValidator;
 	
 	@GetMapping("/list")
 	public String list(Model model) {
@@ -47,6 +51,8 @@ public class BoardController {
 	
 	@PostMapping("/form")
 	public String formSubmit(@Valid Board board, BindingResult bindingResult) {
+		boardValidator.validate(board, bindingResult);
+		
 		if (bindingResult.hasErrors()) {
 			return "board/form";
 		}
