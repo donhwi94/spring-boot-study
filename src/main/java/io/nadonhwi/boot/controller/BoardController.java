@@ -33,11 +33,14 @@ public class BoardController {
 	private BoardValidator boardValidator;
 	
 	@GetMapping("/list")
-	public String list(Model model, @PageableDefault(size=2) Pageable pageable) {
+	public String list(Model model, @PageableDefault(size=2) Pageable pageable, @RequestParam(required=false, defaultValue="") String searchText) {
 		
 		// page별 조회 
 		// localhost:8090/board/list?page=0&size=1 과 같은식으로 표시할 page와 size를 파라미터로 넘겨줄 수 있다
-		Page<Board> boards = boardRepository.findAll(pageable);
+		//Page<Board> boards = boardRepository.findAll(pageable);
+		
+		// title과 content로 검색
+		Page<Board> boards = boardRepository.findByTitleContainingOrContentContaining(searchText, searchText, pageable);
 		
 		int startPage = Math.max(1, boards.getPageable().getPageNumber() - 4);
 		int endPage = Math.min(boards.getTotalPages(), boards.getPageable().getPageNumber() + 4); 
