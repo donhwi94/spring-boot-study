@@ -42,8 +42,8 @@ public class BoardController {
 		// title과 content로 검색
 		Page<Board> boards = boardRepository.findByTitleContainingOrContentContaining(searchText, searchText, pageable);
 		
-		int startPage = Math.max(1, boards.getPageable().getPageNumber() - 4);
-		int endPage = Math.min(boards.getTotalPages(), boards.getPageable().getPageNumber() + 4); 
+		int startPage = Math.max(1, boards.getPageable().getPageNumber() - 5);
+		int endPage = Math.min(boards.getTotalPages(), boards.getPageable().getPageNumber() + 5);
 		
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("endPage", endPage);
