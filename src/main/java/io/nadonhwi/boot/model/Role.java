@@ -1,24 +1,27 @@
 package io.nadonhwi.boot.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 import lombok.Data;
 
 @Entity
 @Data
-public class Board {
+public class Role {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@NotNull
-	@Size(min=2, max=30, message="제목을 입력해주세요")
-	private String title;
-	private String content;
+	private String name;
 	
+	@OneToMany(mappedBy = "role")
+	private List<UserRole> users = new ArrayList<>();
 }
