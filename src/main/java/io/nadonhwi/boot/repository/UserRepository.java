@@ -6,5 +6,5 @@ import io.nadonhwi.boot.model.Board;
 import io.nadonhwi.boot.model.User;
 
 public interface UserRepository extends JpaRepository<User, Long>{
-
+	User findByUsername(String username);
 }

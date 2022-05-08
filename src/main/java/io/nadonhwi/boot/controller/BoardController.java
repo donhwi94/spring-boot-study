@@ -9,6 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import io.nadonhwi.boot.model.Board;
 import io.nadonhwi.boot.repository.BoardRepository;
+import io.nadonhwi.boot.service.BoardService;
 import io.nadonhwi.boot.validator.BoardValidator;
 
 @Controller
@@ -31,6 +34,9 @@ public class BoardController {
 	
 	@Autowired
 	private BoardValidator boardValidator;
+	
+	@Autowired
+	private BoardService boardService;
 	
 	@GetMapping("/list")
 	public String list(Model model, @PageableDefault(size=2) Pageable pageable, @RequestParam(required=false, defaultValue="") String searchText) {
@@ -72,13 +78,20 @@ public class BoardController {
 	}
 	
 	@PostMapping("/form")
-	public String formSubmit(@Valid Board board, BindingResult bindingResult) {
+	public String formSubmit(@Valid Board board, BindingResult bindingResult, Authentication authentication) {
 		boardValidator.validate(board, bindingResult);
 		
 		if (bindingResult.hasErrors()) {
 			return "board/form";
 		}
-		boardRepository.save(board);
+		
+		// 인증정보 가져오는 법2 - service나 controller가 아닌 다른 곳에서 인증정보를 가져올 때 사용
+		// Authentication a = SecurityContextHolder.getContext().getAuthentication();
+		String username = authentication.getName();
+		
+		boardService.save(username, board);
+		//boardRepository.save(board);
+		
 		return "redirect:/board/list";
 	}
 }
