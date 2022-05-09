@@ -43,5 +43,9 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<Role> roles = new ArrayList<>();
-  
+	
+	// onetomany 관계의 경우 user테이블에는 board 정보가 저장되지 않는다 -> 해결 : cascade
+	// orphanRemoval - 기존의 데이터는 다 지운다
+	@OneToMany(mappedBy="user", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Board> boards = new ArrayList<>();
 }

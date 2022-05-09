@@ -11,6 +11,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
 
 @Entity
@@ -29,6 +31,7 @@ public class Role {
 	
 	//양방향 매핑
 	@ManyToMany(mappedBy = "roles")
+	@JsonIgnore
     private List<User> users;
 	
 }

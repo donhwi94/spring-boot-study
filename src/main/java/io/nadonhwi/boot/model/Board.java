@@ -9,6 +9,8 @@ import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
 
 @Entity
@@ -27,5 +29,7 @@ public class Board {
 	// 참조하고자 하는 속성값이 pk 값이면 referencedColumnName = "id" 생략 가능
 	//@JoinColumn(name = "user_id", referencedColumnName = "id")
 	@JoinColumn(name = "user_id")
+	@JsonIgnore
 	private User user;
+
 }

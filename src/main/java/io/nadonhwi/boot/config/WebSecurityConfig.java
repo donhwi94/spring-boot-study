@@ -31,10 +31,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http
 			.authorizeRequests()
-				.antMatchers("/", "/css/**", "/h2-console/**", "/account/register").permitAll()
+				.antMatchers("/", "/css/**", "/h2-console/**", "/account/register", "/api/**").permitAll()
 				.anyRequest().authenticated()
 				.and()
 			.csrf()
+				//.disable() // test용도
                	.ignoringAntMatchers("/h2-console/**")
                	.and()
             .headers()
